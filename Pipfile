@@ -13,6 +13,8 @@ virtualenv = "*"
 python-dotenv = "*"
 Authlib = "*"
 Flask = "*"
+mysqlclient = "*"
+Flask-SQLAlchemy = "*"
 
 [requires]
 python_version = "3.7"
