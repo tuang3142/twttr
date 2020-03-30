@@ -1,7 +1,9 @@
 import os
 import json
-import google_auth
 from flask import Flask
+from . import google_auth
+from .models import User, Blog
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -9,8 +11,11 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = os.environ.get("SECRET_KEY", default=False)
+    app.secret_key = os.environ.get("SECRET_KEY")
+    db_uri = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.register_blueprint(google_auth.app)
+    Migrate(app, db)
     db.init_app(app)
 
     @app.route('/')

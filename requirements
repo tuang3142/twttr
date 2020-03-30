@@ -3,6 +3,6 @@ flask
 google-api-python-client
 google-auth
 virtualenv
-python-dotenv
 flask-sqlalchemy
 mysqlclient
+flask-migrate
