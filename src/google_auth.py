@@ -61,7 +61,7 @@ def no_cache(view):
     return functools.update_wrapper(no_cache_impl, view)
 
 
-@google_api.route('/login')
+@google_api.route('/login', methods=['GET', 'POST'])
 @no_cache
 def login():
     session = OAuth2Session(CLIENT_ID, CLIENT_SECRET,
@@ -100,11 +100,7 @@ def google_auth_redirect():
         user = User(user_info)
         user.save()
 
-    return flask.Response(status=302)
-
-
-def find_or_create_user(user_info):
-    return
+    return flask.redirect(BASE_URI, code=302)
 
 
 @google_api.route('/logout')

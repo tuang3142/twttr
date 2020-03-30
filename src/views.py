@@ -22,19 +22,22 @@ def blog_create():
     if not google_auth.is_logged_in():
         return custom_response("you need to login", 403)
 
-    req = request.get_json()
-    data, error = blog_schema.load(req, partial=True)
-
-    if error:
-        return custom_response(error, 400)
+    data = {'title': request.args['title'], 'content': request.args['content']}
 
     blog = Blog(data)
     user_info = google_auth.get_user_info()
     user = User.find_by_email(user_info['email'])
     blog.author_id = user.id
     blog.save()
-    breakpoint()
-    return Response(status=200)
+
+    return Response(status=201)
+
+
+@blog_api.route('/<int:blog_id>', methods=['GET'])
+def blog_show(blog_id):
+    blog = Blog.query.get(blog_id)
+    data = blog_schema.dump(blog)
+    return custom_response(data, 200)
 
 
 @user_api.route('/', methods=['GET'])
@@ -44,12 +47,15 @@ def user_index():
     return custom_response(data, 200)
 
 
-@user_api.route('/me', methods=['GET'])
-def user_show():
-    if not google_auth.is_logged_in():
-        return custom_response("you need to login", 403)
-    user_info = google_auth.get_user_info()
-    return custom_response(user_info, 200)
+@user_api.route('/<int:user_id>', methods=['GET'])
+def user_show(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return custom_response({'error': 'user not found'}, 404)
+
+    blogs = Blog.query.filter_by(author_id=user_id).all()
+    data = blog_schema.dump(blogs, many=True)
+    return custom_response(data, 200)
 
 
 def custom_response(res, status_code):

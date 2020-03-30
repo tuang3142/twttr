@@ -3,7 +3,6 @@ import json
 
 from flask import Flask, Response
 from flask_migrate import Migrate
-from flask_login import LoginManager
 from . import google_auth, views, models
 
 
@@ -26,15 +25,12 @@ def create_app():
 
     models.db.init_app(app)
 
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-
     @app.route('/')
     def index():
         if not google_auth.is_logged_in():
             return custom_response("you need to login", 403)
 
-        return custom_response("log in successful", 200)
+        return views.blog_index()
 
     return app
 
