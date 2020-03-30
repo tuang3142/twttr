@@ -29,13 +29,6 @@ def create_app():
         if not google_auth.is_logged_in():
             return custom_response("you need to login", 403)
 
-        user_info = google_auth.get_user_info()
-        user = models.User.find_by_email(user_info['email'])
-
-        if not user:
-            user = models.User(user_info)
-            user.save()
-
         return custom_response("log in successful", 200)
 
     return app

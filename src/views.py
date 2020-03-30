@@ -34,7 +34,7 @@ def blog_create():
     blog.author_id = user.id
     blog.save()
 
-    return Response(status=201)
+    return Response(status=200)
 
 
 @user_api.route('/', methods=['GET'])
