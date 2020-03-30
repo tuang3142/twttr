@@ -101,8 +101,6 @@ def google_auth_redirect():
         user = User(user_info)
         user.save()
 
-    flask.session[AUTH_TOKEN_KEY] = oauth2_tokens
-
     return flask.redirect(BASE_URI, code=302)
 
 
