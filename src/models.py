@@ -50,6 +50,9 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), unique=True, nullable=False)
+    name = db.Column(db.String(128), nullable=False)
+    phone_number = db.Column(db.String(128))
+    job = db.Column(db.String(128))
     fullfiled = db.Column(db.Boolean, default=False)
     blogs = db.relationship('Blog', backref='users', lazy=True)
     created_at = db.Column(db.DateTime)
