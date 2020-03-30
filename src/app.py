@@ -2,20 +2,24 @@ import os
 import json
 from flask import Flask
 from . import google_auth
-from .models import User, Blog
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy()
+from .models import User, Blog
 
 
 def create_app():
     app = Flask(__name__)
+
     app.secret_key = os.environ.get("SECRET_KEY")
+
     db_uri = os.environ.get('SQLALCHEMY_DATABASE_URI')
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+
     app.register_blueprint(google_auth.app)
+
     Migrate(app, db)
+
     db.init_app(app)
 
     @app.route('/')
@@ -25,4 +29,5 @@ def create_app():
             return '<div>You are currently logged in as ' + user_info['given_name'] + '<div><pre>' + json.dumps(user_info, indent=4) + "</pre>"
 
         return 'You are not currently logged in.'
+
     return app

@@ -16,6 +16,7 @@ Flask = "*"
 mysqlclient = "*"
 Flask-SQLAlchemy = "*"
 Flask-Migrate = "*"
+marshmallow = "*"
 
 [requires]
 python_version = "3.7"
