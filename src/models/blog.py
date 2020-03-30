@@ -49,17 +49,9 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-<<<<<<< HEAD:src/models/blog.py
-    title = db.Column(db.String(128), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.Integer,
-                          db.ForeignKey('users.id'),
-                          nullable=False)
-=======
     email = db.Column(db.String(128), unique=True, nullable=False)
     fullfiled = db.Column(db.Boolean, default=False)
     blogs = db.relationship('Blog', backref='users', lazy=True)
->>>>>>> migration:src/models.py
     created_at = db.Column(db.DateTime)
     updated_at = db.Column(db.DateTime)
 
