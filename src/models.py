@@ -13,13 +13,14 @@ class Blog(db.Model):
     author_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'),
                           nullable=False)
-    liked_by = db.Column(db.Text)
+    liked_by = db.Column(db.Text, default='')
     created_at = db.Column(db.DateTime)
     updated_at = db.Column(db.DateTime)
 
     def __init__(self, data):
         self.title = data.get('title')
         self.content = data.get('content')
+        self.liked_by = ''
         self.created_at = datetime.datetime.utcnow()
         self.updated_at = datetime.datetime.utcnow()
 
