@@ -10,6 +10,8 @@ from . import google_auth, views, models
 def create_app():
     app = Flask(__name__)
 
+    app.url_map.strict_slashes = False
+
     app.secret_key = os.environ.get('SECRET_KEY')
 
     db_uri = os.environ.get('SQLALCHEMY_DATABASE_URI')

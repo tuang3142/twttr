@@ -33,7 +33,7 @@ def blog_create():
     user = User.find_by_email(user_info['email'])
     blog.author_id = user.id
     blog.save()
-
+    breakpoint()
     return Response(status=200)
 
 

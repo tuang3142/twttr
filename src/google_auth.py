@@ -21,7 +21,6 @@ google_api = flask.Blueprint('google_auth', __name__)
 
 
 def is_logged_in():
-    breakpoint()
     return True if AUTH_TOKEN_KEY in flask.session else False
 
 
@@ -101,7 +100,11 @@ def google_auth_redirect():
         user = User(user_info)
         user.save()
 
-    return flask.redirect(BASE_URI, code=302)
+    return flask.Response(status=302)
+
+
+def find_or_create_user(user_info):
+    return
 
 
 @google_api.route('/logout')
@@ -110,4 +113,4 @@ def logout():
     flask.session.pop(AUTH_TOKEN_KEY, None)
     flask.session.pop(AUTH_STATE_KEY, None)
 
-    return flask.redirect(BASE_URI, code=302)
+    return flask.Response(status=302)
