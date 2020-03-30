@@ -3,7 +3,7 @@ import json
 
 from flask import Flask, Response
 from flask_migrate import Migrate
-
+from flask_login import LoginManager
 from . import google_auth, views, models
 
 
@@ -25,6 +25,9 @@ def create_app():
     Migrate(app, models.db)
 
     models.db.init_app(app)
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
 
     @app.route('/')
     def index():
