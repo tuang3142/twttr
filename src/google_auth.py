@@ -100,7 +100,7 @@ def google_auth_redirect():
         user = User(user_info)
         user.save()
 
-    return flask.redirect(BASE_URI, code=302)
+    return flask.Response(status=200)
 
 
 @google_api.route('/logout')
@@ -109,4 +109,4 @@ def logout():
     flask.session.pop(AUTH_TOKEN_KEY, None)
     flask.session.pop(AUTH_STATE_KEY, None)
 
-    return flask.Response(status=302)
+    return flask.Response(status=200)

@@ -6,6 +6,7 @@ class BlogSchema(Schema):
     title = fields.Str(required=True)
     content = fields.Str(required=True)
     author = fields.Int(required=True)
+    liked_by = fields.Str(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 

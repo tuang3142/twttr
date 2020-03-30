@@ -13,6 +13,7 @@ class Blog(db.Model):
     author_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'),
                           nullable=False)
+    liked_by = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
     updated_at = db.Column(db.DateTime)
 
@@ -21,9 +22,6 @@ class Blog(db.Model):
         self.content = data.get('content')
         self.created_at = datetime.datetime.utcnow()
         self.updated_at = datetime.datetime.utcnow()
-        self.author_id = db.Column(db.Integer,
-                                   db.ForeignKey('users.id'),
-                                   nullable=False)
 
     def save(self):
         db.session.add(self)

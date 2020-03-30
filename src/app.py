@@ -25,13 +25,6 @@ def create_app():
 
     models.db.init_app(app)
 
-    @app.route('/')
-    def index():
-        if not google_auth.is_logged_in():
-            return custom_response("you need to login", 403)
-
-        return views.blog_index()
-
     return app
 
 
