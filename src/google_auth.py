@@ -8,7 +8,7 @@ import googleapiclient.discovery
 ACCESS_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
 AUTHORIZATION_URL = 'https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent'
 
-AUTHORIZATION_SCOPE ='openid email profile'
+AUTHORIZATION_SCOPE = 'openid email profile'
 
 AUTH_REDIRECT_URI = os.environ.get("AUTH_REDIRECT_URI", default=False)
 BASE_URI = os.environ.get("BASE_URI", default=False)
@@ -20,8 +20,10 @@ AUTH_STATE_KEY = 'auth_state'
 
 app = flask.Blueprint('google_auth', __name__)
 
+
 def is_logged_in():
     return True if AUTH_TOKEN_KEY in flask.session else False
+
 
 def build_credentials():
     if not is_logged_in():
@@ -36,6 +38,7 @@ def build_credentials():
                 client_secret=CLIENT_SECRET,
                 token_uri=ACCESS_TOKEN_URI)
 
+
 def get_user_info():
     credentials = build_credentials()
 
@@ -44,6 +47,7 @@ def get_user_info():
                         credentials=credentials)
 
     return oauth2_client.userinfo().get().execute()
+
 
 def no_cache(view):
     @functools.wraps(view)
@@ -69,6 +73,7 @@ def login():
 
     return flask.redirect(uri, code=302)
 
+
 @app.route('/google/auth')
 @no_cache
 def google_auth_redirect():
@@ -90,6 +95,7 @@ def google_auth_redirect():
 
     return flask.redirect(BASE_URI, code=302)
 
+
 @app.route('/google/logout')
 @no_cache
 def logout():
@@ -97,4 +103,3 @@ def logout():
     flask.session.pop(AUTH_STATE_KEY, None)
 
     return flask.redirect(BASE_URI, code=302)
-
