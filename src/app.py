@@ -1,7 +1,6 @@
 import os
-import json
 
-from flask import Flask, Response
+from flask import Flask
 from flask_migrate import Migrate
 from . import google_auth, views, models
 
