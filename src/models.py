@@ -1,15 +1,14 @@
 import datetime
-from .app import db
-from marshmallow import fields, Schema
+from flask_sqlalchemy import SQLAlchemy
 
-N = 128
+db = SQLAlchemy()
 
 
 class Blog(db.Model):
     __tablename__ = 'blogs'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(N), nullable=False)
+    title = db.Column(db.String(128), nullable=False)
     content = db.Column(db.Text, nullable=False)
     author_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'),
@@ -46,7 +45,8 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(N), unique=True, nullable=False)
+    openid = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True, nullable=False)
     fullfiled = db.Column(db.Boolean, default=False)
     blogs = db.relationship('Blog', backref='users', lazy=True)
     created_at = db.Column(db.DateTime)
@@ -54,6 +54,7 @@ class User(db.Model):
 
     def __init__(self, data):
         self.email = data.get('email')
+        self.openid = data.get('openid')
         self.created_at = datetime.datetime.utcnow()
         self.updated_at = datetime.datetime.utcnow()
 
@@ -65,25 +66,10 @@ class User(db.Model):
     def all():
         User.query.all()
 
+    # @staticmethod
+    # def find_by_id(id):
+    #     return User.query.get(id)
+
     @staticmethod
-    def find_by_id(id):
-        return User.query.get(id)
-
-
-class BlogSchema(Schema):
-    id = fields.Int(dump_only=True)
-    title = fields.Str(required=True)
-    content = fields.Str(required=True)
-    author = fields.Int(required=True)
-    created_at = fields.DateTime(dump_only=True)
-    updated_at = fields.DateTime(dump_only=True)
-
-
-class UserSchema(Schema):
-    id = fields.Int(dump_only=True)
-    name = fields.Str(required=True)
-    email = fields.Email(required=True)
-    password = fields.Str(required=True)
-    created_at = fields.DateTime(dump_only=True)
-    updated_at = fields.DateTime(dump_only=True)
-    blogs = fields.Nested(BlogSchema, many=True)
+    def find_by_email(email):
+        return User.query.get(email)
