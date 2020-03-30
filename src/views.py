@@ -40,6 +40,25 @@ def blog_show(blog_id):
     return custom_response(data, 200)
 
 
+@blog_api.route('/<int:blog_id>/likes', methods=['GET'])
+def blog_like_index(blog_id):
+    blog = Blog.query.get(blog_id)
+    user_ids = blog.liked_by.split(',')
+
+    return custom_response(user_ids, 200)
+
+
+@blog_api.route('/<int:blog_id>/likes', methods=['PUT'])
+def blog_like_put(blog_id):
+    if not google_auth.is_logged_in():
+        return custom_response("you need to login", 403)
+    blog = Blog.query.get(blog_id)
+    user_info = google_auth.get_user_info()
+    user_id = user_info['id']
+    blog.add_like(user_id)
+    return Response(status=200)
+
+
 @user_api.route('/', methods=['GET'])
 def user_index():
     users = User.all()

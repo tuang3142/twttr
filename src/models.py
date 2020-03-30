@@ -27,6 +27,11 @@ class Blog(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def add_like(self, user_id):
+        self.like_by += ',' + user_id
+        self.updated_at = datetime.datetime.utcnow()
+        db.session.commit()
+
     def preview(self):
         return
 
