@@ -16,7 +16,6 @@ def create_app():
     db_uri = os.environ.get('SQLALCHEMY_DATABASE_URI')
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
-    # breakpoint()
     app.register_blueprint(google_auth.google_api, url_prefix='/api/v1/google')
     app.register_blueprint(views.blog_api, url_prefix='/api/v1/blogs')
     app.register_blueprint(views.user_api, url_prefix='/api/v1/users')
@@ -26,11 +25,3 @@ def create_app():
     models.db.init_app(app)
 
     return app
-
-
-def custom_response(res, status_code):
-    return Response(
-        mimetype="application/json",
-        response=json.dumps(res),
-        status=status_code
-    )
