@@ -2,7 +2,8 @@ import os
 import json
 from flask import Flask
 from . import google_auth
-from .models import User, Blog
+from .models.user import User
+from .models.blog import Blog
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 

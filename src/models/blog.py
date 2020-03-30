@@ -1,40 +1,12 @@
 import datetime
-from .app import db
-
-N = 128
-
-
-class User(db.Model):
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(N), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime)
-    updated_at = db.Column(db.DateTime)
-    # fullfiled = boolean
-
-    def __init__(self, data):
-        self.email = data.get('email')
-        self.created_at = datetime.datetime.utcnow()
-        self.updated_at = datetime.datetime.utcnow()
-
-    def __repr__(self):
-        return '<id %r>' % self.id
-
-    @staticmethod
-    def all():
-        User.query.all()
-
-    @staticmethod
-    def find_by_id(id):
-        return User.query.get(id)
+from ..app import db
 
 
 class Blog(db.Model):
     __tablename__ = 'blogs'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(N), nullable=False)
+    title = db.Column(db.String(128), nullable=False)
     content = db.Column(db.Text, nullable=False)
     author_id = db.Column(db.Integer,
                           db.ForeignKey('users.id'),
