@@ -1,5 +1,5 @@
 from .schemas import BlogSchema, UserSchema
-from .models import Blog
+from .models import Blog, User
 from flask import request, json, Response, Blueprint
 from . import google_auth
 
@@ -11,14 +11,14 @@ user_schema = UserSchema()
 
 
 @blog_api.route('/', methods=['GET'])
-def index():
+def blog_index():
     blogs = Blog.all()
     data = blog_schema.dump(blogs, many=True)
     return custom_response(data, 200)
 
 
 @blog_api.route('/', methods=['POST'])
-def create():
+def blog_create():
     if not google_auth.is_logged_in():
         return custom_response("you need to login", 403)
 
@@ -30,15 +30,22 @@ def create():
 
     blog = Blog(data)
     user_info = google_auth.get_user_info()
-    user = models.User.find_by_email(user_info['email'])
+    user = User.find_by_email(user_info['email'])
     blog.author_id = user.id
     blog.save()
 
     return Response(status=201)
 
 
+@user_api.route('/', methods=['GET'])
+def user_index():
+    users = User.all()
+    data = user_schema.dump(users, many=True)
+    return custom_response(data, 200)
+
+
 @user_api.route('/me', methods=['GET'])
-def show():
+def user_show():
     if not google_auth.is_logged_in():
         return custom_response("you need to login", 403)
     user_info = google_auth.get_user_info()
@@ -51,4 +58,3 @@ def custom_response(res, status_code):
         response=json.dumps(res),
         status=status_code
     )
-

@@ -18,7 +18,7 @@ def create_app():
     # breakpoint()
     app.register_blueprint(google_auth.google_api, url_prefix='/api/v1/google')
     app.register_blueprint(views.blog_api, url_prefix='/api/v1/blogs')
-    app.register_blueprint(views.blog_api, url_prefix='/api/v1/users')
+    app.register_blueprint(views.user_api, url_prefix='/api/v1/users')
 
     Migrate(app, models.db)
 

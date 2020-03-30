@@ -3,6 +3,7 @@ import flask
 import functools
 import google.oauth2.credentials
 import googleapiclient.discovery
+from .models import User
 from authlib.integrations.requests_client import OAuth2Session
 
 ACCESS_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
@@ -92,6 +93,13 @@ def google_auth_redirect():
                         authorization_response=flask.request.url)
 
     flask.session[AUTH_TOKEN_KEY] = oauth2_tokens
+
+    user_info = get_user_info()
+    user = User.find_by_email(user_info['email'])
+
+    if not user:
+        user = User(user_info)
+        user.save()
 
     return flask.redirect(BASE_URI, code=302)
 

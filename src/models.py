@@ -45,7 +45,6 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    openid = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     fullfiled = db.Column(db.Boolean, default=False)
     blogs = db.relationship('Blog', backref='users', lazy=True)
@@ -54,7 +53,7 @@ class User(db.Model):
 
     def __init__(self, data):
         self.email = data.get('email')
-        self.openid = data.get('openid')
+        self.fullfiled = True
         self.created_at = datetime.datetime.utcnow()
         self.updated_at = datetime.datetime.utcnow()
 
@@ -64,11 +63,7 @@ class User(db.Model):
 
     @staticmethod
     def all():
-        User.query.all()
-
-    # @staticmethod
-    # def find_by_id(id):
-    #     return User.query.get(id)
+        return User.query.all()
 
     @staticmethod
     def find_by_email(email):
