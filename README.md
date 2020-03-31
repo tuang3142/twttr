@@ -1,7 +1,5 @@
 # twttr
 
-## overview
-
 a micro blogging web application that you can run locally
 
 ## set up pipenv
