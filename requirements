@@ -1,8 +1,0 @@
-authlib
-flask
-google-api-python-client
-google-auth
-virtualenv
-flask-sqlalchemy
-mysqlclient
-flask-migrate
