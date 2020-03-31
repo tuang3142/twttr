@@ -26,7 +26,7 @@ python run.py
 
 # api endpoints
 
-`url_prefx = https//localhost/5000`
+`prefix = https//localhost/5000/api/v1/`
 
 |      |                  |
 |------|------------------|
@@ -36,3 +36,5 @@ python run.py
 | GET  | /blogs/:id/likes |
 | GET  | /users           |
 | GET  | /users/:id       |
+| GET  | /google/login.   |
+| GET  | /google/logout.  |
