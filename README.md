@@ -56,15 +56,15 @@ python run.py
 
 `prefix = https//localhost/5000/api/v1/`
 
-|      |                  |
-|------|------------------|
-| GET  | /blogs           |
-| POST | /blogs           |
-| GET  | /blogs/:id       |
-| GET  | /blogs/:id/likes |
-| POST | /blogs/:id/likes |
-| GET  | /users           |
-| GET  | /users/:id       |
-| GET  | /google/login    |
-| POST | /google/login    |
-| GET  | /google/logout   |
+|methods| endpoint         |
+|-------|------------------|
+| GET   | /blogs           |
+| POST  | /blogs           |
+| GET   | /blogs/:id       |
+| GET   | /blogs/:id/likes |
+| POST  | /blogs/:id/likes |
+| GET   | /users           |
+| GET   | /users/:id       |
+| GET   | /google/login    |
+| POST  | /google/login    |
+| GET   | /google/logout   |
